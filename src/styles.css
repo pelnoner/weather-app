@@ -1,0 +1,59 @@
+body {
+  font-family: Cerebri Sans, Helvetica, Arial, sans-serif;
+  color: #fff;
+  background: url(../images/pexels-eberhard-grossgasteiger-2347011.jpg);
+  background-size: cover;
+}
+.container {
+  background: url(../images/dalle.png);
+  background-size: cover;
+  margin-top: 20px;
+  padding-top: 20px;
+  max-width: 650px;
+  padding-bottom: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.topNav {
+  max-width: 500px;
+  display: block;
+  margin: 0 auto;
+}
+
+#search-button {
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+}
+.card {
+  background: transparent;
+}
+.cardsArea {
+  max-width: 500px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: none;
+  display: block;
+  margin: 0 auto;
+}
+#current-city {
+  text-decoration: none;
+  background-clip: text;
+  background-image: url("https://media4.giphy.com/media/5YgrywW2uTABYSzVdC/giphy.gif?cid=790b76110ed6dceb9762228e08bbc1245641ac16aabfac42&rid=giphy.gif&ct=g");
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+#currentCityMainInfo {
+  padding: 1.5em 0.5em 0.5em;
+  text-align: center;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  border: none;
+}
+#currentCityDetails {
+  border: none;
+}
+
+#conditions {
+  text-transform: capitalize;
+}
