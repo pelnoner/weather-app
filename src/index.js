@@ -95,6 +95,7 @@ function getWeatherDataFromSearch(inputCity) {
   let weatherData = axios.get(apiUrl);
   weatherData.then(updateCityFromLocation);
   weatherData.then(updateWeatherData);
+  weatherData.then(updateCurrentIcon);
 }
 
 //gets current city from the weather data and updates the page with current city
@@ -151,6 +152,7 @@ function getWeatherDataFromLocation(position) {
   let weatherData = axios.get(apiUrl);
   weatherData.then(updateCityFromLocation);
   weatherData.then(updateWeatherData);
+  weatherData.then(updateCurrentIcon);
 }
 
 function clickLocationButton(event) {
@@ -217,3 +219,32 @@ function convertToCelsius() {
 }
 let celsiusButton = document.querySelector("#celsius-button");
 celsiusButton.addEventListener("click", convertToCelsius);
+
+//update current condition icon according to weather classification
+function updateCurrentIcon(response) {
+  let weathercondition = response.data.weather[0].main;
+  console.log(weathercondition);
+  weathercondition = weathercondition.toUpperCase();
+  if (weathercondition == "RAIN") {
+    let currentIcon = document.querySelector("#current-icon");
+    currentIcon.src = "images/rain.png";
+  } else if (weathercondition == "SNOW") {
+    let currentIcon = document.querySelector("#current-icon");
+    currentIcon.src = "images/snow.png";
+  } else if (weathercondition == "CLEAR") {
+    let currentIcon = document.querySelector("#current-icon");
+    currentIcon.src = "images/sun.png";
+  } else if (weathercondition == "CLOUDS") {
+    let currentIcon = document.querySelector("#current-icon");
+    currentIcon.src = "images/clouds.png";
+  } else if (weathercondition == "THUNDERSTORM") {
+    let currentIcon = document.querySelector("#current-icon");
+    currentIcon.src = "images/thunderstorm.png";
+  } else if (weathercondition == "DRIZZLE") {
+    let currentIcon = document.querySelector("#current-icon");
+    currentIcon.src = "images/rain.png";
+  } else {
+    let currentIcon = document.querySelector("#current-icon");
+    currentIcon.src = "images/haze.png";
+  }
+}
