@@ -57,3 +57,7 @@ body {
 #conditions {
   text-transform: capitalize;
 }
+h2 {
+  text-align: right;
+  margin: 50px 0 30px;
+}
