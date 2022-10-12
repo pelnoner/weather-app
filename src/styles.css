@@ -9,13 +9,13 @@ body {
   background-size: cover;
   margin-top: 20px;
   padding-top: 20px;
-  max-width: 650px;
+  max-width: 600px;
   padding-bottom: 30px;
   border-radius: 15px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 .topNav {
-  max-width: 500px;
+  max-width: 400px;
   display: block;
   margin: 0 auto;
 }
@@ -43,6 +43,18 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+h2 {
+  font-size: 36px;
+  text-align: right;
+  margin: 50px 0 30px;
+}
+h3 {
+  padding-bottom: 10px;
+}
+p {
+  margin: 0;
+  padding: 0;
+}
 #currentCityMainInfo {
   padding: 1.5em 0.5em 0.5em;
   text-align: center;
@@ -57,9 +69,12 @@ body {
 #conditions {
   text-transform: capitalize;
 }
-h2 {
-  text-align: right;
-  margin: 50px 0 30px;
+#next-forecast .card-body {
+  padding-left: 10px;
+  text-align: center;
+}
+#next-forecast .card p {
+  font-size: 14px;
 }
 
 .footer {
