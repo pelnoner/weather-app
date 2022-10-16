@@ -221,6 +221,34 @@ function convertToCelsius() {
 let celsiusButton = document.querySelector("#celsius-button");
 celsiusButton.addEventListener("click", convertToCelsius);
 
+function displayForecast() {
+  let forecastElement = document.querySelector("#next-forecast");
+  let forecastHTML = ``;
+  let days = ["WED", "THU", "FRI", "SAT", "SUN"];
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `
+  <div class="card">
+            <img
+            id = "forecast-icon"
+              src="images/rain.png"
+              class="card-img-top"
+              style="max-width: 100%; height: auto"
+            />
+            <div class="card-body">
+              <h5 class="card-title">${day}</h5>
+              <p class="card-text">High: <span id="forecast-high-temp">24</span><span id="degree-type">°C</span></p>
+              <p class="card-text">Low: <span id="forecast-low-temp">24</span><span id="degree-type">°C</span></p>
+            </div>
+          </div>`;
+  });
+
+  forecastElement.innerHTML = forecastHTML;
+}
+
+displayForecast();
+
 //update current condition icon according to weather classification
 function updateCurrentIcon(response) {
   let weathercondition = response.data.weather[0].main;
