@@ -47,7 +47,7 @@ function currentDate() {
   return currentDateInfo;
 }
 
-//console.log(currentDate());
+console.log(currentDate());
 
 //updates the day and time field in the page with current day and time values
 // i.e. FRIDAY 20:22
@@ -97,6 +97,7 @@ function getWeatherDataFromSearch(inputCity) {
   weatherData.then(updateWeatherData);
   weatherData.then(updateCurrentIcon);
 }
+getWeatherDataFromSearch("Los Angeles");
 
 //gets current city from the weather data and updates the page with current city
 function updateCityFromLocation(response) {
