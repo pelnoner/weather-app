@@ -47,7 +47,7 @@ function currentDate() {
   return currentDateInfo;
 }
 
-console.log(currentDate());
+//console.log(currentDate());
 
 //updates the day and time field in the page with current day and time values
 // i.e. FRIDAY 20:22
@@ -109,7 +109,8 @@ function updateCityFromLocation(response) {
 
 //updates page with weather data
 function updateWeatherData(response) {
-  console.log(response.data);
+  getForecastAPI(response.data.coord);
+  //console.log(response.data);
   //update current temperature at current location
   let temp = Math.round(response.data.main.temp);
   let currentTemp = document.querySelector("#current-temperature");
@@ -142,6 +143,35 @@ function updateWeatherData(response) {
   let visibility = response.data.visibility;
   let visDoc = document.querySelector("#visibility");
   visDoc.innerHTML = `Visibility: ${Math.round(visibility * 0.001)} km`;
+}
+
+//update current condition icon according to weather classification
+function updateCurrentIcon(response) {
+  let weathercondition = response.data.weather[0].main;
+  //console.log(weathercondition);
+  weathercondition = weathercondition.toUpperCase();
+  if (weathercondition == "RAIN") {
+    let currentIcon = document.querySelector("#current-icon");
+    currentIcon.src = "images/rain.png";
+  } else if (weathercondition == "SNOW") {
+    let currentIcon = document.querySelector("#current-icon");
+    currentIcon.src = "images/snow.png";
+  } else if (weathercondition == "CLEAR") {
+    let currentIcon = document.querySelector("#current-icon");
+    currentIcon.src = "images/sun.png";
+  } else if (weathercondition == "CLOUDS") {
+    let currentIcon = document.querySelector("#current-icon");
+    currentIcon.src = "images/clouds.png";
+  } else if (weathercondition == "THUNDERSTORM") {
+    let currentIcon = document.querySelector("#current-icon");
+    currentIcon.src = "images/thunderstorm.png";
+  } else if (weathercondition == "DRIZZLE") {
+    let currentIcon = document.querySelector("#current-icon");
+    currentIcon.src = "images/rain.png";
+  } else {
+    let currentIcon = document.querySelector("#current-icon");
+    currentIcon.src = "images/haze.png";
+  }
 }
 
 //gets weather data for the geolocation then calls function to update the page with weather data
@@ -182,6 +212,14 @@ function convertToFahrenheit() {
     );
     let lowTemperature = document.querySelector("#low-temp");
     lowTemperature.innerHTML = Math.round(lowTemperature.innerHTML * 1.8 + 32);
+    let days = [1, 2, 3, 4, 5];
+    days.forEach(function (day) {
+      let forecastHigh = document.querySelector(`#forecast-high-${day}`);
+      forecastHigh.innerHTML = Math.round(forecastHigh.innerHTML * 1.8 + 32);
+      let forecastLow = document.querySelector(`#forecast-low-${day}`);
+      forecastLow.innerHTML = Math.round(forecastLow.innerHTML * 1.8 + 32);
+    });
+
     let allDegrees = document.querySelectorAll("#degree-type");
     allDegrees.forEach((Element) => (Element.innerHTML = "°F"));
   } else {
@@ -212,6 +250,13 @@ function convertToCelsius() {
     lowTemperature.innerHTML = Math.round(
       (lowTemperature.innerHTML - 32) / 1.8
     );
+    let days = [1, 2, 3, 4, 5];
+    days.forEach(function (day) {
+      let forecastHigh = document.querySelector(`#forecast-high-${day}`);
+      forecastHigh.innerHTML = Math.round((forecastHigh.innerHTML - 32) / 1.8);
+      let forecastLow = document.querySelector(`#forecast-low-${day}`);
+      forecastLow.innerHTML = Math.round((forecastLow.innerHTML - 32) / 1.8);
+    });
     let allDegrees = document.querySelectorAll("#degree-type");
     allDegrees.forEach((Element) => (Element.innerHTML = "°C"));
   } else {
@@ -221,25 +266,59 @@ function convertToCelsius() {
 let celsiusButton = document.querySelector("#celsius-button");
 celsiusButton.addEventListener("click", convertToCelsius);
 
-function displayForecast() {
+function displayForecast(response) {
+  console.log(response.data.daily);
   let forecastElement = document.querySelector("#next-forecast");
   let forecastHTML = ``;
-  let days = ["WED", "THU", "FRI", "SAT", "SUN"];
+  let days = [1, 2, 3, 4, 5];
   days.forEach(function (day) {
+    var i = 0;
+    var data = { list: [{ dt: response.data.daily[day].dt }] };
+    console.log(data.list[i].dt);
+    var weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+    var dayNum = new Date(data.list[i].dt * 1000).getDay();
+    console.log(dayNum);
+    var result = weekdays[dayNum];
+    console.log(result);
+
+    let weathercondition = response.data.daily[day].weather[0].main;
+    //console.log(weathercondition);
+    weathercondition = weathercondition.toUpperCase();
+    let forecastIconUrl = "images/snow.png";
+    if (weathercondition == "RAIN") {
+      forecastIconUrl = "images/rain.png";
+    } else if (weathercondition == "SNOW") {
+      forecastIconUrl = "images/snow.png";
+    } else if (weathercondition == "CLEAR") {
+      forecastIconUrl = "images/sun.png";
+    } else if (weathercondition == "CLOUDS") {
+      forecastIconUrl = "images/clouds.png";
+    } else if (weathercondition == "THUNDERSTORM") {
+      forecastIconUrl = "images/thunderstorm.png";
+    } else if (weathercondition == "DRIZZLE") {
+      forecastIconUrl = "images/rain.png";
+    } else {
+      forecastIconUrl = "images/haze.png";
+    }
+
     forecastHTML =
       forecastHTML +
       `
   <div class="card">
             <img
             id = "forecast-icon"
-              src="images/rain.png"
+              src=${forecastIconUrl}
               class="card-img-top"
               style="max-width: 100%; height: auto"
             />
             <div class="card-body">
-              <h5 class="card-title">${day}</h5>
-              <p class="card-text">High: <span id="forecast-high-temp">24</span><span id="degree-type">°C</span></p>
-              <p class="card-text">Low: <span id="forecast-low-temp">24</span><span id="degree-type">°C</span></p>
+              <h5 class="card-title">${result}</h5>
+              <p class="card-text">High: <span id="forecast-high-${day}">${Math.round(
+        response.data.daily[day].temp.max
+      )}</span><span id="degree-type">°C</span></p>
+              <p class="card-text">Low: <span id="forecast-low-${day}">${Math.round(
+        response.data.daily[day].temp.min
+      )}</span><span id="degree-type">°C</span></p>
             </div>
           </div>`;
   });
@@ -247,33 +326,10 @@ function displayForecast() {
   forecastElement.innerHTML = forecastHTML;
 }
 
-displayForecast();
-
-//update current condition icon according to weather classification
-function updateCurrentIcon(response) {
-  let weathercondition = response.data.weather[0].main;
-  console.log(weathercondition);
-  weathercondition = weathercondition.toUpperCase();
-  if (weathercondition == "RAIN") {
-    let currentIcon = document.querySelector("#current-icon");
-    currentIcon.src = "images/rain.png";
-  } else if (weathercondition == "SNOW") {
-    let currentIcon = document.querySelector("#current-icon");
-    currentIcon.src = "images/snow.png";
-  } else if (weathercondition == "CLEAR") {
-    let currentIcon = document.querySelector("#current-icon");
-    currentIcon.src = "images/sun.png";
-  } else if (weathercondition == "CLOUDS") {
-    let currentIcon = document.querySelector("#current-icon");
-    currentIcon.src = "images/clouds.png";
-  } else if (weathercondition == "THUNDERSTORM") {
-    let currentIcon = document.querySelector("#current-icon");
-    currentIcon.src = "images/thunderstorm.png";
-  } else if (weathercondition == "DRIZZLE") {
-    let currentIcon = document.querySelector("#current-icon");
-    currentIcon.src = "images/rain.png";
-  } else {
-    let currentIcon = document.querySelector("#current-icon");
-    currentIcon.src = "images/haze.png";
-  }
+function getForecastAPI(coordinates) {
+  console.log(coordinates);
+  let apiKey = "63214c4281922e3bb72fdf12dada7734";
+  let apiURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+  console.log(apiURL);
+  axios.get(apiURL).then(displayForecast);
 }
