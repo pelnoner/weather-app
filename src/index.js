@@ -47,8 +47,6 @@ function currentDate() {
   return currentDateInfo;
 }
 
-//console.log(currentDate());
-
 //updates the day and time field in the page with current day and time values
 // i.e. FRIDAY 20:22
 function updateDayTime(currentDateInfo) {
@@ -84,18 +82,17 @@ function updateCurrentCity(event) {
     alert("Please enter a city to search");
   }
 }
-
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", updateCurrentCity);
 
-//gets weather data for the city user searches then calls function to update the page with weather data
+//gets weather data for the city user searches then calls function to update the page with current weather data
 function getWeatherDataFromSearch(inputCity) {
   let apiKey = "894a2e7aa7f46eeca5d8778f6faa5a5b";
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${inputCity}&appid=${apiKey}&units=metric`;
   let degreeType = document.querySelector("#degree-type");
-if (degreeType.innerHTML.trim() === "°F"){
-  convertToCelsius();
-}
+  if (degreeType.innerHTML.trim() === "°F"){
+    convertToCelsius();
+  }
   let weatherData = axios.get(apiUrl);
   weatherData.then(updateCityFromLocation);
   weatherData.then(updateWeatherData);
@@ -111,10 +108,9 @@ function updateCityFromLocation(response) {
   cityToUpdate.innerHTML = currentCity;
 }
 
-//updates page with weather data
+//updates page with current weather data and forecast data
 function updateWeatherData(response) {
   getForecastAPI(response.data.coord);
-  //console.log(response.data);
   //update current temperature at current location
   let temp = Math.round(response.data.main.temp);
   let currentTemp = document.querySelector("#current-temperature");
@@ -152,7 +148,6 @@ function updateWeatherData(response) {
 //update current condition icon according to weather classification
 function updateCurrentIcon(response) {
   let weathercondition = response.data.weather[0].main;
-  //console.log(weathercondition);
   weathercondition = weathercondition.toUpperCase();
   if (weathercondition == "RAIN") {
     let currentIcon = document.querySelector("#current-icon");
@@ -190,12 +185,13 @@ function getWeatherDataFromLocation(position) {
   weatherData.then(updateCurrentIcon);
 }
 
+//calls getWeatherDataFromLocation function when location button is clicked
 function clickLocationButton(event) {
   event.preventDefault();
   let degreeType = document.querySelector("#degree-type");
-if (degreeType.innerHTML.trim() === "°F"){
+  if (degreeType.innerHTML.trim() === "°F"){
   convertToCelsius();
-}
+  }
   navigator.geolocation.getCurrentPosition(getWeatherDataFromLocation);
 }
 let locationButton = document.querySelector("#location-button");
@@ -203,7 +199,7 @@ locationButton.addEventListener("click", clickLocationButton);
 
 //converts the current temperature to Fahrenheit and updates the page with Fahrenheit values
 function convertToFahrenheit() {
-  //update current city main info card
+  //converts current city main info card data
   let degreeType = document.querySelector("#degree-type");
 
   if (degreeType.innerHTML.trim() === "°C") {
@@ -220,6 +216,7 @@ function convertToFahrenheit() {
     );
     let lowTemperature = document.querySelector("#low-temp");
     lowTemperature.innerHTML = Math.round(lowTemperature.innerHTML * 1.8 + 32);
+    //converts forecast data
     let days = [1, 2, 3, 4, 5];
     days.forEach(function (day) {
       let forecastHigh = document.querySelector(`#forecast-high-${day}`);
@@ -239,7 +236,7 @@ fahrenheitButton.addEventListener("click", convertToFahrenheit);
 
 //converts the current temperature to Celsius and updates the page with Celsius values
 function convertToCelsius() {
-  //update current city main info card
+  //converts current city main info card data
   let degreeType = document.querySelector("#degree-type");
 
   if (degreeType.innerHTML.trim() === "°F") {
@@ -258,6 +255,7 @@ function convertToCelsius() {
     lowTemperature.innerHTML = Math.round(
       (lowTemperature.innerHTML - 32) / 1.8
     );
+    //converts forecast data
     let days = [1, 2, 3, 4, 5];
     days.forEach(function (day) {
       let forecastHigh = document.querySelector(`#forecast-high-${day}`);
@@ -274,8 +272,8 @@ function convertToCelsius() {
 let celsiusButton = document.querySelector("#celsius-button");
 celsiusButton.addEventListener("click", convertToCelsius);
 
+//adds forecast cards to html and updates the forecast details with following days and weather icons 
 function displayForecast(response) {
-  console.log(response.data.daily);
   let forecastElement = document.querySelector("#next-forecast");
   let forecastHTML = ``;
   let days = [1, 2, 3, 4, 5];
@@ -285,12 +283,11 @@ function displayForecast(response) {
     console.log(data.list[i].dt);
     var weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
     var dayNum = new Date(data.list[i].dt * 1000).getDay();
-    console.log(dayNum);
+    //console.log(dayNum);
     var result = weekdays[dayNum];
-    console.log(result);
+    //console.log(result);
 
     let weathercondition = response.data.daily[day].weather[0].main;
-    //console.log(weathercondition);
     weathercondition = weathercondition.toUpperCase();
     let forecastIconUrl = "images/snow.png";
     if (weathercondition == "RAIN") {
@@ -334,10 +331,9 @@ function displayForecast(response) {
   forecastElement.innerHTML = forecastHTML;
 }
 
+//pulls forecast weather information from the API
 function getForecastAPI(coordinates) {
-  console.log(coordinates);
   let apiKey = "63214c4281922e3bb72fdf12dada7734";
   let apiURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
-  console.log(apiURL);
   axios.get(apiURL).then(displayForecast);
 }
