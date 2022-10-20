@@ -4,7 +4,7 @@ body {
   background: url(../images/pexels-eberhard-grossgasteiger-2347011.jpg);
   background-size: cover;
 }
-.container {
+#cont {
   background: url(../images/dalle.png);
   background-size: cover;
   margin-top: 20px;

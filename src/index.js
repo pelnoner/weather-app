@@ -55,6 +55,12 @@ function updateDayTime(currentDateInfo) {
 
   let currentTime = document.querySelector("#current-time");
   currentTime.innerHTML = `${currentDateInfo[3]}:${currentDateInfo[4]}`;
+  
+  if(currentDateInfo[3] >= 19){
+      let currentBackground = document.getElementById("cont");
+      currentBackground.style.background='url(images/dallenight.png)';
+      currentBackground.style.backgroundSize='cover';
+  }
 }
 updateDayTime(currentDate());
 
