@@ -280,7 +280,7 @@ function displayForecast(response) {
   days.forEach(function (day) {
     var i = 0;
     var data = { list: [{ dt: response.data.daily[day].dt }] };
-    console.log(data.list[i].dt);
+    //console.log(data.list[i].dt);
     var weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
     var dayNum = new Date(data.list[i].dt * 1000).getDay();
     //console.log(dayNum);
