@@ -92,6 +92,10 @@ searchForm.addEventListener("submit", updateCurrentCity);
 function getWeatherDataFromSearch(inputCity) {
   let apiKey = "894a2e7aa7f46eeca5d8778f6faa5a5b";
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${inputCity}&appid=${apiKey}&units=metric`;
+  let degreeType = document.querySelector("#degree-type");
+if (degreeType.innerHTML.trim() === "°F"){
+  convertToCelsius();
+}
   let weatherData = axios.get(apiUrl);
   weatherData.then(updateCityFromLocation);
   weatherData.then(updateWeatherData);
@@ -188,6 +192,10 @@ function getWeatherDataFromLocation(position) {
 
 function clickLocationButton(event) {
   event.preventDefault();
+  let degreeType = document.querySelector("#degree-type");
+if (degreeType.innerHTML.trim() === "°F"){
+  convertToCelsius();
+}
   navigator.geolocation.getCurrentPosition(getWeatherDataFromLocation);
 }
 let locationButton = document.querySelector("#location-button");
