@@ -55,11 +55,11 @@ function updateDayTime(currentDateInfo) {
 
   let currentTime = document.querySelector("#current-time");
   currentTime.innerHTML = `${currentDateInfo[3]}:${currentDateInfo[4]}`;
-  
-  if(currentDateInfo[3] >= 19){
-      let currentBackground = document.getElementById("cont");
-      currentBackground.style.background='url(images/dallenight.png)';
-      currentBackground.style.backgroundSize='cover';
+
+  if (currentDateInfo[3] >= 19) {
+    let currentBackground = document.getElementById("cont");
+    currentBackground.style.background = "url(images/dallenight.png)";
+    currentBackground.style.backgroundSize = "cover";
   }
 }
 updateDayTime(currentDate());
@@ -96,13 +96,14 @@ function getWeatherDataFromSearch(inputCity) {
   let apiKey = "894a2e7aa7f46eeca5d8778f6faa5a5b";
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${inputCity}&appid=${apiKey}&units=metric`;
   let degreeType = document.querySelector("#degree-type");
-  if (degreeType.innerHTML.trim() === "°F"){
+  if (degreeType.innerHTML.trim() === "°F") {
     convertToCelsius();
   }
   let weatherData = axios.get(apiUrl);
   weatherData.then(updateCityFromLocation);
   weatherData.then(updateWeatherData);
   weatherData.then(updateCurrentIcon);
+  //weatherData.then(displayForecast);
 }
 getWeatherDataFromSearch("Los Angeles");
 
@@ -195,8 +196,8 @@ function getWeatherDataFromLocation(position) {
 function clickLocationButton(event) {
   event.preventDefault();
   let degreeType = document.querySelector("#degree-type");
-  if (degreeType.innerHTML.trim() === "°F"){
-  convertToCelsius();
+  if (degreeType.innerHTML.trim() === "°F") {
+    convertToCelsius();
   }
   navigator.geolocation.getCurrentPosition(getWeatherDataFromLocation);
 }
@@ -223,13 +224,13 @@ function convertToFahrenheit() {
     let lowTemperature = document.querySelector("#low-temp");
     lowTemperature.innerHTML = Math.round(lowTemperature.innerHTML * 1.8 + 32);
     //converts forecast data
-    let days = [1, 2, 3, 4, 5];
+    /*let days = [1, 2, 3, 4, 5];
     days.forEach(function (day) {
       let forecastHigh = document.querySelector(`#forecast-high-${day}`);
       forecastHigh.innerHTML = Math.round(forecastHigh.innerHTML * 1.8 + 32);
       let forecastLow = document.querySelector(`#forecast-low-${day}`);
       forecastLow.innerHTML = Math.round(forecastLow.innerHTML * 1.8 + 32);
-    });
+    }); */
 
     let allDegrees = document.querySelectorAll("#degree-type");
     allDegrees.forEach((Element) => (Element.innerHTML = "°F"));
@@ -262,13 +263,13 @@ function convertToCelsius() {
       (lowTemperature.innerHTML - 32) / 1.8
     );
     //converts forecast data
-    let days = [1, 2, 3, 4, 5];
+    /*let days = [1, 2, 3, 4, 5];
     days.forEach(function (day) {
       let forecastHigh = document.querySelector(`#forecast-high-${day}`);
       forecastHigh.innerHTML = Math.round((forecastHigh.innerHTML - 32) / 1.8);
       let forecastLow = document.querySelector(`#forecast-low-${day}`);
       forecastLow.innerHTML = Math.round((forecastLow.innerHTML - 32) / 1.8);
-    });
+    });*/
     let allDegrees = document.querySelectorAll("#degree-type");
     allDegrees.forEach((Element) => (Element.innerHTML = "°C"));
   } else {
@@ -278,7 +279,7 @@ function convertToCelsius() {
 let celsiusButton = document.querySelector("#celsius-button");
 celsiusButton.addEventListener("click", convertToCelsius);
 
-//adds forecast cards to html and updates the forecast details with following days and weather icons 
+//adds forecast cards to html and updates the forecast details with following days and weather icons
 function displayForecast(response) {
   let forecastElement = document.querySelector("#next-forecast");
   let forecastHTML = ``;
