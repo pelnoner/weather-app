@@ -39,7 +39,7 @@ body {
 #current-city {
   text-decoration: none;
   background-clip: text;
-  background-image: url("https://media4.giphy.com/media/5YgrywW2uTABYSzVdC/giphy.gif?cid=790b76110ed6dceb9762228e08bbc1245641ac16aabfac42&rid=giphy.gif&ct=g");
+  background-image: url("https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGx0azAzajN5dWMzNnllMmM5cXZxZzQzZW14MWpvcGIxNm1pbjRodiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kg19fN5BXbZGIDznzG/giphy-downsized-large.gif");
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
